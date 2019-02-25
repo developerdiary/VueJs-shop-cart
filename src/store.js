@@ -97,11 +97,22 @@ export default new Vuex.Store({
     ],
     cartItems: [],
   },
-  mutations: {},
-  actions: {},
+  mutations: {
+    ADD_PRODUCT: (state, product) =>{
+      state.cartItems.push(product)
+    }
+  },
+  actions: {
+    addProduct: (context, product) => {
+      context.commit('ADD_PRODUCT', product);
+    },
+  },
   getters: {
     getAllProducts(state){
       return state.products;
+    },
+    getProductsInCart(state){
+      return state.cartItems;
     }
   }
 })

@@ -7,7 +7,7 @@
                     <div class="caption">
                         <h4>{{ product.name}}</h4>
                         <p>{{ product.details | truncate(50, '...')}}</p>
-                        <p><a href="#" class="btn btn-info btn-xs" role="button">Button</a></p>
+                        <p><a href="javascript:void(0);" @click="addProductToCart(product)" class="btn btn-primary btn-xs" role="addtocart">Add To Cart</a></p>
                     </div>
                 </div>
             </div>
@@ -18,6 +18,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 
 export default {
 
@@ -26,7 +27,17 @@ export default {
         ...mapGetters([
             'getAllProducts'        
         ])
-    }
+    },
+
+    methods: {
+        ...mapActions([
+        'addProduct'
+        ]),
+        addProductToCart(product) {
+            this.addProduct(product);
+        }
+  },
+
 
 }
 </script>
