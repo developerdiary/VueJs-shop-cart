@@ -31,7 +31,7 @@ export default {
 
     methods: {
         ...mapActions([
-        'addProduct'
+            'addProduct'
         ]),
         addProductToCart(product) {
             this.addProduct(product);

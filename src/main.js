@@ -2,12 +2,24 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import VueCurrencyFilter from 'vue-currency-filter'
 
 import jQuery from 'jquery'
 global.jQuery = jQuery
 
 import 'bootstrap'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
+
+Vue.use(VueCurrencyFilter,
+  {
+    symbol : 'Rs',
+    thousandsSeparator: '.',
+    fractionCount: 2,
+    fractionSeparator: ',',
+    symbolPosition: 'front',
+    symbolSpacing: true
+  })
+  
 
 
 Vue.config.productionTip = false

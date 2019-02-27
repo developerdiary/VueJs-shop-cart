@@ -3,42 +3,47 @@
         <div class="shopping-cart">
             <div class="shopping-cart-header">            
                 <div class="shopping-cart-total">
-                    <span class="lighter-text">Total:</span>
-                    <span class="main-color-text">$2,229.97</span>
+                    <span class="lighter-text">Total: </span>
+                    <span class="main-color-text">{{20000 | currency}}</span>
                 </div>
             </div> <!--end shopping-cart-header -->
 
             <ul class="shopping-cart-items">
-            <li class="clearfix">
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/cart-item1.jpg" alt="item1" />
-                <span class="item-name">Sony DSC-RX100M III</span>
-                <span class="item-price">$849.99</span>
-                <span class="item-quantity">Quantity: 01</span>
-            </li>
-
-            <li class="clearfix">
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/cart-item2.jpg" alt="item1" />
-                <span class="item-name">KS Automatic Mechanic...</span>
-                <span class="item-price">$1,249.99</span>
-                <span class="item-quantity">Quantity: 01</span>
-            </li>
-
-            <li class="clearfix">
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/cart-item3.jpg" alt="item1" />
-                <span class="item-name">Kindle, 6" Glare-Free To...</span>
-                <span class="item-price">$129.99</span>
-                <span class="item-quantity">Quantity: 01</span>
-            </li>
+                <li class="clearfix" v-for="(product, index) in getProductsInCart" :key="index">
+                    <span class="item-remove" @click="remove(index)"><i class="fa fa-times" aria-hidden="true"></i></span>
+                    <img :src="product.image" alt="item1" />
+                    <div class="item-details">                        
+                        <span class="item-name">{{product.name}}</span>
+                        <span class="item-price">{{ product.price | currency }}</span>
+                        <span class="item-quantity">Quantity: 01</span>      
+                    </div>              
+                </li>
             </ul>
-
             <a href="#" class="btn btn-dark btn-xs">Checkout</a>
         </div> <!--end shopping-cart -->
     </div>
 </template>
 
 <script>
-export default {
 
+import { mapGetters, mapActions } from 'vuex'
+
+export default {
+    computed: {        
+        ...mapGetters([
+            'getProductsInCart'        
+        ])
+        
+    },
+    methods:{
+        ...mapActions([
+            'removeProduct'        
+        ]),
+        
+        remove(index) {
+            this.removeProduct(index);
+        },
+    }
 }
 </script>
 
@@ -68,29 +73,47 @@ ol, ul {
 }
 .shopping-cart .shopping-cart-items {
     padding-top: 20px;
+    padding-left: 0px;
 }
 
 .shopping-cart .shopping-cart-header .shopping-cart-total {
     float: right;
 }
 .shopping-cart .shopping-cart-items li {
+    position: relative;
     margin-bottom: 18px;
 }
 .shopping-cart .shopping-cart-items img {
     float: left;
     margin-right: 12px;
+    width: 50px;
 }
-.shopping-cart .shopping-cart-items .item-name {
+
+.shopping-cart .shopping-cart-items .item-details{
+    display: inline-block;
+}
+.shopping-cart .shopping-cart-items .item-details .item-name {
     display: block;
     padding-top: 10px;
-    font-size: 16px;
+    font-size: 14px;
+    text-align: left;
 }
-.shopping-cart .shopping-cart-items .item-price {
+.shopping-cart .shopping-cart-items .item-details .item-price {
+    display: block;
     color: #6394F8;
     margin-right: 8px;
+    text-align: left;
 }
-.shopping-cart .shopping-cart-items .item-quantity {
+.shopping-cart .shopping-cart-items .item-details .item-quantity {
+    display: block;
     color: #ABB0BE;
+    text-align: left;
+}
+
+.shopping-cart .shopping-cart-items .item-remove {
+    position: absolute;
+    right: 0;
+    top: 10px;
 }
 .clearfix:after {
     content: "";

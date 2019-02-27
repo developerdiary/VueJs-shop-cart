@@ -100,11 +100,18 @@ export default new Vuex.Store({
   mutations: {
     ADD_PRODUCT: (state, product) =>{
       state.cartItems.push(product)
+    },
+    REMOVE_PRODUCT: (state, index) => {
+      state.cartItems.splice(index, 1);
     }
+
   },
   actions: {
     addProduct: (context, product) => {
       context.commit('ADD_PRODUCT', product);
+    },
+    removeProduct: (context, index) => {
+      context.commit('REMOVE_PRODUCT', index);
     },
   },
   getters: {
