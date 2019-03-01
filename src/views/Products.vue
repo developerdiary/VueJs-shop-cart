@@ -17,28 +17,47 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import { mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
 
     computed: {
         // mix the getters into computed with object spread operator
         ...mapGetters([
-            'getAllProducts'        
+            'getAllProducts',
+            'getProductsInCart'
         ])
     },
 
-    methods: {
+    methods: {        
         ...mapActions([
-            'addProduct'
-        ]),
-        addProductToCart(product) {
-            this.addProduct(product);
+            'addCartItem',
+            'updateCartItem'          
+        ]),        
+        addProductToCart: function(product) {   
+            var found = false;
+            
+            if(this.getProductsInCart.length > 0){                
+                for(let i=0; i< this.getProductsInCart.length; i++){
+                    if(this.getProductsInCart[i].sku == product.sku){                        
+                        let quantity = this.getProductsInCart[i].quantity + 1;
+                        let playload = [];
+                        playload.quantity = quantity;
+                        playload.index = i;
+                        this.updateCartItem(playload)
+                        found = true;
+                        break;
+                    }
+                }
+                
+            }
+            
+            if(!found) {
+                product.quantity = 1;
+                this.addCartItem(product);
+            }
         }
-  },
-
-
+    }
 }
 </script>
 

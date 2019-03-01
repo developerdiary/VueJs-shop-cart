@@ -4,7 +4,7 @@
             <div class="shopping-cart-header">            
                 <div class="shopping-cart-total">
                     <span class="lighter-text">Total: </span>
-                    <span class="main-color-text">{{20000 | currency}}</span>
+                    <span class="main-color-text">{{totalPrice() | currency}}</span>
                 </div>
             </div> <!--end shopping-cart-header -->
 
@@ -15,7 +15,7 @@
                     <div class="item-details">                        
                         <span class="item-name">{{product.name}}</span>
                         <span class="item-price">{{ product.price | currency }}</span>
-                        <span class="item-quantity">Quantity: 01</span>      
+                        <span class="item-quantity">Quantity: {{ product.quantity }}</span>      
                     </div>              
                 </li>
             </ul>
@@ -37,11 +37,14 @@ export default {
     },
     methods:{
         ...mapActions([
-            'removeProduct'        
+            'removeCartItem'        
         ]),
-        
+        totalPrice() {
+            return this.getProductsInCart.reduce((current, next) =>
+            current + next.price, 0);
+        },
         remove(index) {
-            this.removeProduct(index);
+            this.removeCartItem(index);
         },
     }
 }
