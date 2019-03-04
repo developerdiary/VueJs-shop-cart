@@ -129,7 +129,7 @@ export default new Vuex.Store({
     },
     removeCartItem: (context, index) => {
       context.commit('REMOVE_CART_ITEM', index);
-    },
+    }
   },
   getters: {
     getAllProducts(state){

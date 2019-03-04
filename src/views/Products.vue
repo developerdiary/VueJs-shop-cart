@@ -19,8 +19,11 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
 
-export default {
-
+export default { 
+    data(){
+        return{
+        }
+    },
     computed: {
         // mix the getters into computed with object spread operator
         ...mapGetters([
@@ -28,15 +31,25 @@ export default {
             'getProductsInCart'
         ])
     },
-
+    mounted(){
+        if(this.getProductsInCart.length == 0){
+            let cart = JSON.parse(localStorage.getItem('shoping_cart'));
+            
+            if(cart.length > 0){                
+                for(let i=0; i< cart.length; i++){
+                    let product = cart[i];                    
+                    this.addCartItem(product)
+                }
+            }
+        }
+    },
     methods: {        
         ...mapActions([
             'addCartItem',
             'updateCartItem'          
         ]),        
         addProductToCart: function(product) {   
-            var found = false;
-            
+            var found = false;            
             if(this.getProductsInCart.length > 0){                
                 for(let i=0; i< this.getProductsInCart.length; i++){
                     if(this.getProductsInCart[i].sku == product.sku){                        
@@ -49,13 +62,12 @@ export default {
                         break;
                     }
                 }
-                
-            }
-            
+            }                        
             if(!found) {
                 product.quantity = 1;
                 this.addCartItem(product);
             }
+            localStorage.setItem('shoping_cart', JSON.stringify(this.getProductsInCart));
         }
     }
 }

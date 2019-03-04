@@ -1,6 +1,6 @@
 <template>
-    <div class="container relativeP">
-        <div class="shopping-cart">
+    <div class="container relativeP">        
+        <div class="shopping-cart" v-if="hasProduct()">
             <div class="shopping-cart-header">            
                 <div class="shopping-cart-total">
                     <span class="lighter-text">Total: </span>
@@ -29,6 +29,11 @@
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
+
+    data(){
+        return{            
+        }
+    },
     computed: {        
         ...mapGetters([
             'getProductsInCart'        
@@ -44,8 +49,14 @@ export default {
             current + next.price, 0);
         },
         remove(index) {
+            let cart = JSON.parse(localStorage.getItem('shoping_cart'));
+            cart.splice(index, 1);
+            localStorage.setItem('shoping_cart', JSON.stringify(cart));
             this.removeCartItem(index);
         },
+        hasProduct() {
+            return this.getProductsInCart.length > 0;        
+        }
     }
 }
 </script>

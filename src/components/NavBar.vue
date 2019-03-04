@@ -44,9 +44,6 @@ export default {
     components:{
         CartModal
     },
-    methods:{
-
-    },
     computed:{
         ...mapGetters([
             'getProductsInCart'
